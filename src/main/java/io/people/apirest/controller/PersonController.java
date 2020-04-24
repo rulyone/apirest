@@ -13,6 +13,7 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,14 +53,15 @@ public class PersonController {
     }
     
     @PostMapping("/people")
-    public Person createPerson(@Valid @RequestBody Person person, Errors errors) throws BadRequestException {
+    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person, Errors errors) throws BadRequestException {
         if (errors.hasErrors()) {
             throw new BadRequestException("Bad Request.");
         }
         if (person != null && person.getId() != null) {
             throw new BadRequestException("Bad Request. You can't have an ID attribute in the json request payload to create a new person.");
         }
-        return personRepository.save(person);
+        Person savedPerson = personRepository.save(person);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPerson);
     }
     
     @PutMapping("/people/{id}")
