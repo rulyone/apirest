@@ -24,6 +24,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
-//@TestPropertySource(locations = "classpath:application-integrationtest.properties")
+@TestPropertySource(locations = "classpath:application-integrationtest.properties")
 public class PersonControllerTests {
     
     @Autowired
@@ -68,7 +69,7 @@ public class PersonControllerTests {
         createTestPerson("12587261-1");
         createTestPerson("15392453-8");
         //when
-        mockMvc.perform(get("/v1/restapi/people"))
+        mockMvc.perform(get("/v1/apirest/people"))
         //then
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -80,7 +81,7 @@ public class PersonControllerTests {
     public void getPeoplePaginatedTest() throws Exception {
         //given
         //when
-        mockMvc.perform(get("/v1/restapi/people").queryParam("page", "0").queryParam("size", "1"))
+        mockMvc.perform(get("/v1/apirest/people").queryParam("page", "0").queryParam("size", "1"))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -92,7 +93,7 @@ public class PersonControllerTests {
     public void getAllPeopleTest() throws Exception {
         //given
         //when
-        mockMvc.perform(get("/v1/restapi/people/all"))
+        mockMvc.perform(get("/v1/apirest/people/all"))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -104,7 +105,7 @@ public class PersonControllerTests {
     public void getPeopleByIdTest() throws Exception {
         //given
         //when
-        mockMvc.perform(get("/v1/restapi/people/1"))
+        mockMvc.perform(get("/v1/apirest/people/1"))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -116,11 +117,11 @@ public class PersonControllerTests {
     public void getPeopleById404Test() throws Exception {
         //given
         //when
-        mockMvc.perform(get("/v1/restapi/people/22"))
+        mockMvc.perform(get("/v1/apirest/people/22"))
                 //then
                 .andExpect(status().is(404));
         //when
-        mockMvc.perform(get("/v1/restapi/people/notanumber"))
+        mockMvc.perform(get("/v1/apirest/people/notanumber"))
                 //then
                 .andExpect(status().is(400));
     }
@@ -131,7 +132,7 @@ public class PersonControllerTests {
         //given
         //when
         mockMvc.perform(
-                post("/v1/restapi/people")
+                post("/v1/apirest/people")
                 .content(asJsonString(new Person("9422662-7", "FirstName", "LastName", 35, "English")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -146,7 +147,7 @@ public class PersonControllerTests {
         //given
         //when
         mockMvc.perform(
-                post("/v1/restapi/people")
+                post("/v1/apirest/people")
                 .content("{{}")//invalid json
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -161,7 +162,7 @@ public class PersonControllerTests {
         String invalidRut = "1-8";
         //when
         mockMvc.perform(
-                post("/v1/restapi/people")
+                post("/v1/apirest/people")
                 .content(asJsonString(new Person(invalidRut, "FirstName", "LastName", 35, "English")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -175,7 +176,7 @@ public class PersonControllerTests {
         //given
         //when
         mockMvc.perform(
-                put("/v1/restapi/people/1")
+                put("/v1/apirest/people/1")
                 .content(asJsonString(new Person("7183459-k", "FirstName", "LastName", 25, "English")))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -195,7 +196,7 @@ public class PersonControllerTests {
         //given
         long totalPersons = personRepository.count();
         //when
-        mockMvc.perform(delete("/v1/restapi/people/1"))
+        mockMvc.perform(delete("/v1/apirest/people/1"))
                 //then
                 .andExpect(status().isOk());
         //assert that we deleted 1 from the DB
@@ -208,7 +209,7 @@ public class PersonControllerTests {
         //given
         long totalPersons = personRepository.count();
         //when 
-        mockMvc.perform(delete("/v1/restapi/people/33"))
+        mockMvc.perform(delete("/v1/apirest/people/33"))
                 //then
                 .andExpect(status().is(404));
         //assert that no one was deleted from the DB
@@ -221,7 +222,7 @@ public class PersonControllerTests {
         //given
         long totalPersons = personRepository.count();
         //when 
-        mockMvc.perform(delete("/v1/restapi/people/notanumber"))
+        mockMvc.perform(delete("/v1/apirest/people/notanumber"))
                 //then
                 .andExpect(status().is(400));
         //assert that no one was deleted from the DB

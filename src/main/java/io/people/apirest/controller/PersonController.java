@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author rulyone
  */
 @RestController
-@RequestMapping("/v1/restapi")
+@RequestMapping("/v1/apirest")
 public class PersonController {
     
     @Autowired
