@@ -25,19 +25,7 @@ resource "google_compute_instance" "default" {
  }
 
 // Make sure we run the docker-compose on startup.
- metadata_startup_script = <<EOF
- sudo apt-get -y update;
- sudo apt-get -yq install build-essential; 
- sudo apt-get -yq install default-jdk; 
- sudo apt-get -yq install maven; 
- sudo apt-get -yq install docker-compose docker.io;
- git clone https://github.com/rulyone/apirest.git;
- cd apirest;
- git fetch; git merge origin/master;
- mvn package -Dspring.profiles.active=integrationtest;
- docker build -t apirest .;
- docker-compose up
- EOF
+ metadata_startup_script = "sudo apt-get -y update;sudo apt-get -yq install build-essential;sudo apt-get -yq install default-jdk;sudo apt-get -yq install maven;sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/bin/docker-compose;sudo chmod +x /usr/bin/docker-compose;sudo apt-get -yq install docker.io;sudo git clone https://github.com/rulyone/apirest.git;cd apirest;sudo git fetch;sudo git merge origin/master;sudo mvn package -Dspring.profiles.active=integrationtest;sudo docker volume create --name=postgres-data;sudo docker build -t apirest .;sudo docker-compose up -d;"
 
  network_interface {
    network = "default"
