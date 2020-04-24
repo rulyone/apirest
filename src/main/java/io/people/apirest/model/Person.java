@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -44,6 +45,7 @@ public class Person implements Serializable {
     
     @Column(name = "age", nullable = false)
     @NotNull
+    @Min(18)
     private Integer age; //ToDo Technical Debt: best practice would be to save the birthday instead of age.
     
     @Column(name = "course", nullable = false)
