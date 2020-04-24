@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="apirest">
+    <Basepaths>/v1/people</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1587749837690</CreatedAt>
+    <CreatedBy>pablo.martinez.vargas@outlook.com</CreatedBy>
+    <Description></Description>
+    <DisplayName>apirest</DisplayName>
+    <LastModifiedAt>1587749956011</LastModifiedAt>
+    <LastModifiedBy>pablo.martinez.vargas@outlook.com</LastModifiedBy>
+    <ManifestVersion>SHA-512:ed24c98b6e54e402ef5942ff70c931147af34e2f90f9c0c73a111585b4791693e1ee9301367328ef4965319838e316e2b8e075bb9440b43038ad3df5062e2612</ManifestVersion>
+    <Policies>
+        <Policy>add-cors</Policy>
+        <Policy>impose-quota</Policy>
+        <Policy>remove-query-param-apikey</Policy>
+        <Policy>verify-api-key</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <Spec></Spec>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>
