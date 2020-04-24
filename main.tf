@@ -12,6 +12,10 @@ resource "random_id" "instance_id" {
  byte_length = 8
 }
 
+resource "google_compute_address" "static" {
+  name = "ipv4-address"
+}
+
 // A single Google Cloud Engine instance
 resource "google_compute_instance" "default" {
  name         = "docker-vm-${random_id.instance_id.hex}"
@@ -24,14 +28,15 @@ resource "google_compute_instance" "default" {
    }
  }
 
-// Make sure we run the docker-compose on startup.
- metadata_startup_script = "sudo apt-get -y update;sudo apt-get -yq install build-essential;sudo apt-get -yq install default-jdk;sudo apt-get -yq install maven;sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/bin/docker-compose;sudo chmod +x /usr/bin/docker-compose;sudo apt-get -yq install docker.io;sudo git clone https://github.com/rulyone/apirest.git;cd apirest;sudo git fetch;sudo git merge origin/master;sudo mvn package -Dspring.profiles.active=integrationtest;sudo docker volume create --name=postgres-data;sudo docker build -t apirest .;sudo docker-compose up -d;"
+// Make sure we run the docker-compose on startup. ToDo Technicl Debt: convert to a external file this script.
+ metadata_startup_script = "sudo apt-get -y update;sudo apt-get -yq install build-essential;sudo apt-get -yq install default-jdk;sudo apt-get -yq install maven;sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/bin/docker-compose;sudo chmod +x /usr/bin/docker-compose;sudo apt-get -yq install docker.io;sudo git clone https://github.com/rulyone/apirest.git;cd apirest;sudo git fetch;sudo git merge origin/master;sudo mvn package -Dspring.profiles.active=integrationtest;sudo docker volume create --name=postgres-data;sudo docker build -t apirest .;sudo docker-compose up -d;echo echo"
 
  network_interface {
    network = "default"
 
    access_config {
      // Include this section to give the VM an external ip address
+     nat_ip = google_compute_address.static.address
    }
  }
 }
