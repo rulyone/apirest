@@ -137,7 +137,7 @@ public class PersonControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 //then
-                .andExpect(status().isOk())
+                .andExpect(status().is(201))
                 .andExpect(jsonPath("$.rut").value("9422662-7"));
     }
     
