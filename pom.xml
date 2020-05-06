@@ -10,7 +10,7 @@
     </parent>
     <groupId>io.23people</groupId>
     <artifactId>apirest</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
     <name>apirest</name>
     <description>Demo project for technical test at 23people.io</description>
 
