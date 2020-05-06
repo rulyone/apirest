@@ -2,7 +2,7 @@
 // CREDENTIALS_FILE.json is outside the project folder for security reasons.
 // how to obtain this (getting project credentials): https://cloud.google.com/community/tutorials/getting-started-on-gcp-with-terraform
 provider "google" {
-  credentials = file("CREDENTIALS_FILE.json")
+  credentials = file("../CREDENTIALS_FILE.json")
   project     = "sage-inn-274818"
   region      = "us-west1"
 }
